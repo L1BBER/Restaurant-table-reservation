@@ -1,0 +1,108 @@
+[
+  {
+    "id": "T1",
+    "x": 37,
+    "y": 12,
+    "status": "free",
+    "seats": 4
+  },
+  {
+    "id": "T2",
+    "x": 50,
+    "y": 12,
+    "status": "free",
+    "seats": 4
+  },
+  {
+    "id": "T3",
+    "x": 63,
+    "y": 12,
+    "status": "reserved",
+    "seats": 4,
+    "reservation": {
+      "firstName": "Veronika",
+      "lastName": "Lisova",
+      "email": "maxabushe4ka@gmail.com",
+      "phone": "793256223",
+      "date": "2025-12-03",
+      "time": "19:00"
+    }
+  },
+  {
+    "id": "T4",
+    "x": 76,
+    "y": 12,
+    "status": "free",
+    "seats": 4
+  },
+  {
+    "id": "T5",
+    "x": 89,
+    "y": 12,
+    "status": "free",
+    "seats": 4
+  },
+  {
+    "id": "T6",
+    "x": 63,
+    "y": 45,
+    "status": "free",
+    "seats": 4
+  },
+  {
+    "id": "T7",
+    "x": 76,
+    "y": 45,
+    "status": "free",
+    "seats": 4
+  },
+  {
+    "id": "T8",
+    "x": 89,
+    "y": 45,
+    "status": "free",
+    "seats": 4
+  },
+  {
+    "id": "T9",
+    "x": 63,
+    "y": 66,
+    "status": "free",
+    "seats": 4
+  },
+  {
+    "id": "T10",
+    "x": 76,
+    "y": 66,
+    "status": "free",
+    "seats": 4
+  },
+  {
+    "id": "T11",
+    "x": 89,
+    "y": 66,
+    "status": "free",
+    "seats": 4
+  },
+  {
+    "id": "T12",
+    "x": 63,
+    "y": 87,
+    "status": "free",
+    "seats": 4
+  },
+  {
+    "id": "T13",
+    "x": 76,
+    "y": 87,
+    "status": "free",
+    "seats": 4
+  },
+  {
+    "id": "T14",
+    "x": 89,
+    "y": 87,
+    "status": "free",
+    "seats": 4
+  }
+]

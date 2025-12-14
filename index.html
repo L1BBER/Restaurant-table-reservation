@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>System rezerwacji stolików – plan sali</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="mode-user">
+<header>
+    <div class="header-inner">
+        <h1>System rezerwacji stolików – plan sali</h1>
+
+        <div class="role-switch">
+            <button id="role-user" class="role-btn role-btn-active">Użytkownik</button>
+            <button id="role-admin" class="role-btn">Admin</button>
+        </div>
+    </div>
+</header>
+
+<main>
+    <div class="layout">
+        <!-- PLAN SALI -->
+        <section class="card floor-card">
+            <h2>Plan sali</h2>
+            <p class="subtitle">
+                Kliknij stolik na mapie, aby zobaczyć szczegóły i zarezerwować.
+            </p>
+
+            <div class="floor-map-wrapper">
+                <div id="floor-map" class="floor-map">
+                    <!-- Kuchnia -->
+                    <div class="zone zone-kitchen">
+                        <span class="zone-label">Kuchnia</span>
+                    </div>
+
+                    <!-- WC -->
+                    <div class="zone zone-restroom zone-restroom-m">
+                        <span class="zone-label">WC M</span>
+                    </div>
+                    <div class="zone zone-restroom zone-restroom-f">
+                        <span class="zone-label">WC F</span>
+                    </div>
+
+                    <!-- Bar -->
+                    <div class="zone zone-bar-back"></div>
+                    <div class="zone zone-bar-counter"></div>
+
+                    <!-- Stołki przy barze (dekoracja, NIE do rezerwacji) -->
+                    <div class="bar-seat bar-seat-1"></div>
+                    <div class="bar-seat bar-seat-2"></div>
+                    <div class="bar-seat bar-seat-3"></div>
+                    <div class="bar-seat bar-seat-4"></div>
+
+                    <!-- Stoliki .table są dodawane dynamicznie w JS -->
+                </div>
+            </div>
+
+            <div class="legend">
+                <div class="legend-item">
+                    <span class="legend-color legend-free"></span>
+                    <span>Wolny</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color legend-reserved"></span>
+                    <span>Zarezerwowany</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color legend-pending"></span>
+                    <span>W trakcie potwierdzania</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- PANEL INFO -->
+        <aside class="card info-card">
+            <div class="info-section" id="details-section">
+                <h3>Szczegóły stolika</h3>
+                <p id="no-selection-text">Wybierz stolik z planu, aby zobaczyć szczegóły.</p>
+
+                <div id="details-content" style="display:none;">
+                    <div class="details-row">
+                        <span class="details-label">ID:</span>
+                        <span id="detail-id"></span>
+                    </div>
+                    <div class="details-row">
+                        <span class="details-label">Status:</span>
+                        <span id="detail-status" class="status-pill">
+                            <span class="status-dot" id="detail-status-dot"></span>
+                            <span id="detail-status-text"></span>
+                        </span>
+                    </div>
+                    <div class="details-row">
+                        <span class="details-label">Liczba miejsc:</span>
+                        <span id="detail-seats"></span>
+                    </div>
+                    <div class="details-row" id="reservation-info" style="display:none;">
+                        <span class="details-label">Rezerwacja:</span>
+                        <span id="reservation-text"></span>
+                    </div>
+
+                    <div class="details-actions">
+                        <button id="reserve-btn" class="btn-primary">Zarezerwuj</button>
+                        <button id="edit-res-btn" class="btn-secondary">Edytuj rezerwację</button>
+                        <button id="delete-res-btn" class="btn-secondary">Usuń rezerwację</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-section">
+                <h3>Lista stolików</h3>
+                <p class="subtitle small">
+                    Kliknij pozycję na liście, aby zaznaczyć stolik na planie.
+                </p>
+                <ul id="table-list" class="table-list"></ul>
+            </div>
+
+            <!-- kolejka oczekujących rezerwacji – tylko dla admina -->
+            <div class="info-section admin-only">
+                <h3>Oczekujące rezerwacje</h3>
+                <p id="no-pending-text" class="subtitle small">
+                    Brak rezerwacji w trakcie potwierdzania.
+                </p>
+                <ul id="pending-list" class="pending-list"></ul>
+            </div>
+        </aside>
+    </div>
+</main>
+
+<!-- MODAL REZERWACJI -->
+<div id="reservation-modal" class="modal hidden">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content">
+        <h3>Rezerwacja stolika</h3>
+        <p class="subtitle small">
+            Uzupełnij dane rezerwacji.
+        </p>
+        <form id="reservation-form">
+            <div class="form-group">
+                <label for="firstName">Imię</label>
+                <input type="text" id="firstName" required>
+            </div>
+            <div class="form-group">
+                <label for="lastName">Nazwisko</label>
+                <input type="text" id="lastName" required>
+            </div>
+            <div class="form-group">
+                <label for="email">E-mail</label>
+                <input type="email" id="email" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Numer telefonu</label>
+                <input type="tel" id="phone" required>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="date">Data rezerwacji</label>
+                    <input type="date" id="date" required>
+                </div>
+                <div class="form-group">
+                    <label for="time">Godzina</label>
+                    <input type="time" id="time" required>
+                </div>
+            </div>
+
+            <div class="modal-actions">
+                <button type="button" id="reservation-cancel" class="btn-secondary">Anuluj</button>
+                <button type="submit" class="btn-primary">Zapisz rezerwację</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
