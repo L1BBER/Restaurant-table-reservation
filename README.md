@@ -43,7 +43,7 @@ cd Restaurant-table-reservation
 npm ci
 ```
 
-Before starting, set `API_URL` near the top of `script.js` to your local API address:
+`API_URL` near the top of `script.js` defaults to the local API:
 
 ```javascript
 const API_URL = "http://localhost:3000/api/tables";
@@ -63,7 +63,7 @@ python -m http.server 8000 --bind 127.0.0.1
 
 Open [the frontend](http://localhost:8000) and check [API health](http://localhost:3000/health).
 
-For a phone on the same network, use the host computer's LAN address instead of `localhost`, and configure local networking deliberately. The existing `start.ps1` contains a machine-specific project path and must be adapted before use; manual startup is the portable route.
+Both servers bind to loopback by default. `start.ps1` is a portable Windows helper for the same local setup. Do not expose this prototype to a public network or enter real guest details: it has no server-side authentication. LAN use requires deliberately configuring `HOST`, the frontend bind address, and `API_URL`.
 
 ## API
 
@@ -80,8 +80,9 @@ index.html          Page structure and reservation form
 style.css           Floor plan, states, and responsive layout
 script.js           Browser state, rendering, forms, and API requests
 server/server.js    Express API
-server/tables.json  Persisted table data
-start.ps1           Original Windows development helper
+server/tables.example.json  Empty 14-table layout (committed)
+server/tables.json          Local reservation data (created on save; ignored)
+start.ps1           Local Windows development helper
 ```
 
 ## Scope and limitations
@@ -102,3 +103,7 @@ The repository's `npm test` is currently a placeholder and exits with an error. 
 ## Engineering focus
 
 The project demonstrates DOM-driven UI state, form handling, a visual availability model, HTTP API integration, and simple backend persistence. Future development should prioritize server-side authentication, schema validation, database transactions, and reservation conflict tests.
+
+## Data privacy
+
+Only an empty floor plan is distributed. Actual reservations are saved to `server/tables.json`, which is not tracked by Git. Logs, local environment files, dependencies, IDE state, and shortcuts are excluded. Use synthetic booking data during demonstrations. See [SECURITY.md](SECURITY.md).

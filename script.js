@@ -3,8 +3,7 @@
 // ===========================
 
 // IP urządzenia, na którym działa server.js (port 3000)
-const API_URL = "http://172.20.10.4:3000/api/tables";
-    "node server\\server.js:3000/api/tables";
+const API_URL = "http://localhost:3000/api/tables";
 
 // 14 stolików: 5 na górze, 9 na dole po prawej
 const defaultTables = [

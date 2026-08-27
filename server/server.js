@@ -6,10 +6,12 @@ const fs = require("fs");
 const path = require("path");
 
 const app = express();
-const PORT = 3000;
+const PORT = Number(process.env.PORT || 3000);
+const HOST = process.env.HOST || "127.0.0.1";
 
 // tables.json leży obok tego pliku (w folderze server)
 const DATA_FILE = path.join(__dirname, "tables.json");
+const EXAMPLE_FILE = path.join(__dirname, "tables.example.json");
 
 // middleware do parsowania JSON
 app.use(express.json());
@@ -32,7 +34,7 @@ app.use((req, res, next) => {
 function readTables() {
     try {
         if (!fs.existsSync(DATA_FILE)) {
-            return [];
+            return JSON.parse(fs.readFileSync(EXAMPLE_FILE, "utf8"));
         }
         const raw = fs.readFileSync(DATA_FILE, "utf8");
         if (!raw) return [];
@@ -84,7 +86,7 @@ app.get("/health", (req, res) => {
 });
 
 // ===== start serwera =====
-app.listen(PORT, () => {
+app.listen(PORT, HOST, () => {
     console.log(`Server running on http://localhost:${PORT}`);
     console.log(`API: http://localhost:${PORT}/api/tables`);
 });
